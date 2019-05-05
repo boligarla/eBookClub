@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django-crispy-forms = "*"
+pillow = "*"
+luigi = "*"
+Django="*"
+djangorestframework="*"
+dj-database_url="*"
+psycopg2-binary = "*"
+Pillow="*"
+wheel ="*"
+flake8="*"
+whitenoise ="*"
+setuptools-scm = "*"
+environ = "*"
+
+[requires]
+python_version = "3.7"
