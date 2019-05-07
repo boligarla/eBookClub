@@ -277,7 +277,6 @@ tags
 .envs/*
 !.envs/.local/
 /data
-db.
 .jpg
 migrations
 media

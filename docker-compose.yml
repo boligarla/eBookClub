@@ -10,22 +10,22 @@ services:
       - "8000:8000"
     volumes:
       # realtime update without restarting docker
-      - ./app:/app
+      - ./eBookClub:/eBookClub
     command: >
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
-      - DB_NAME=app
-      - DB_USER=postgres
-      - DB_PASS=supersecretpassword
+      - DB_NAME=eBookClub
+      - DB_USER=admin
+      - DB_PASS=admin
     depends_on:
       - db
 
   db:
-    image: postgres:10-alpine
+    image: sqllite
     environment:
-      - POSTGRES_DB=app
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=supersecretpassword
+      - SQL_DB=eBookClub
+      - SQL_USER=admin
+      - SQL_PASSWORD=admin

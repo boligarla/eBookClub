@@ -19,6 +19,7 @@ flake8="*"
 whitenoise ="*"
 setuptools-scm = "*"
 environ = "*"
+configurations = "*"
 
 [requires]
 python_version = "3.7"
