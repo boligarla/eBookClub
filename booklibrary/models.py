@@ -4,7 +4,10 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-"""Model representing an author information."""
+"""Model representing an author information.
+   Returns the url to access a particular author instance.
+   Model representing a book genre (e.g. Science Fiction, Non Fiction).
+   Model representing a Language (e.g. English, French, Japanese, etc.)"""
 
 
 class Author(models.Model):
@@ -15,28 +18,24 @@ class Author(models.Model):
         ordering = ['last_name', 'first_name']
 
     def get_absolute_url(self):
-        """Returns the url to access a particular author instance."""
+
         return reverse('author-detail', args=[str(self.id)])
 
     def __str__(self):
-        """String for representing the Model object."""
         return '{0}, {1}'.format(self.last_name, self.first_name)
 
 
 class Genre(models.Model):
-    """Model representing a book genre (e.g. Science Fiction, Non Fiction)."""
     name = models.CharField(
         max_length=200,
         help_text="Enter a book genre (e.g. Science Fiction, French Poetry etc.)"
         )
 
     def __str__(self):
-        """String for representing the Model object (in Admin site etc.)"""
         return self.name
 
 
 class Book(models.Model):
-    """Model representing a book (but not a specific copy of a book)."""
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     # Foreign Key used because book can only have one author, but authors can have multiple books
@@ -51,32 +50,26 @@ class Book(models.Model):
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
     def display_genre(self):
-        """Creates a string for the Genre. This is required to display genre in Admin."""
         return ', '.join([genre.name for genre in self.genre.all()[:3]])
 
     display_genre.short_description = 'Genre'
 
     def get_absolute_url(self):
-        """Returns the url to access a particular book instance."""
         return reverse('book-detail', args=[str(self.id)])
 
     def __str__(self):
-        """String for representing the Model object."""
         return self.title
 
 
 class Language(models.Model):
-    """Model representing a Language (e.g. English, French, Japanese, etc.)"""
     name = models.CharField(max_length=200,
                             help_text="Enter the book's natural language (e.g. English, French, Japanese etc.)")
 
     def __str__(self):
-        """String for representing the Model object (in Admin site etc.)"""
         return self.name
 
 
 class BookInstance(models.Model):
-    """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
                           help_text="Unique ID for this particular book across whole library")
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
@@ -109,7 +102,6 @@ class BookInstance(models.Model):
         permissions = (("can_mark_returned", "Set book as returned"),)
 
     def __str__(self):
-        """String for representing the Model object."""
         return '{0} ({1})'.format(self.id, self.book.title)
 
 

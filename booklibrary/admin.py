@@ -15,15 +15,17 @@ admin.site.register(Language)
 admin.site.register(Genre)
 admin.site.register(Language)
 
+"""Defines format of inline book insertion (used in AuthorAdmin)
+    Administration object for BookInstance models.
+    """
+
 
 class BooksInline(admin.TabularInline):
-    """Defines format of inline book insertion (used in AuthorAdmin)"""
     model = Book
 
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-    """Administration object for Author models."""
     list_display = ('last_name',
                     'first_name')
     fields = ['first_name', 'last_name']
@@ -31,12 +33,10 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 class BooksInstanceInline(admin.TabularInline):
-    """format of inline book instance insertion (used in BookAdmin)"""
     model = BookInstance
 
 
 class BookAdmin(admin.ModelAdmin):
-    """Administration object for Book models."""
     list_display = ('title', 'author', 'display_genre')
     inlines = [BooksInstanceInline]
 
@@ -46,8 +46,6 @@ admin.site.register(Book, BookAdmin)
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    """Administration object for BookInstance models.
-    """
     list_display = ('book', 'status', 'borrower', 'due_back', 'id')
     list_filter = ('status', 'due_back')
 
